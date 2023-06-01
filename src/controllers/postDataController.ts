@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { executeQuery } from '../database';
 
-export const postDataController = async (req: Request, res: Response) => {
+const postDataController = async (req: Request, res: Response) => {
   const { student_id, plan } = req.body;
 
   if (!student_id || !plan) {
@@ -24,3 +24,5 @@ export const postDataController = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Database connection error' });
   }
 };
+
+export default postDataController;
