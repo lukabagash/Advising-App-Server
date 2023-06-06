@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "tsc"
+    "build": "tsc && wsl rsync -azP -e 'ssh -o ForwardAgent=yes' dist/ package-lock.json package.json bagash_l2@jakku.cs.denison.edu:/Volumes/Users/bagash_l2/AdvisingAppServer"
   },
   "keywords": [],
   "author": "",
