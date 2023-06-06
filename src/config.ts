@@ -1,8 +1,8 @@
 export const dbConfig = {
-  host: 'jakku.cs.denison.edu',
+  host: 'localhost',
   port: 3306,
   user: 'bagash_l2',
   database: 'app_schedule',
-  password: 'Micronokia123!'
+  password: process.env.ADVISING_APP_CONFIG
 };
   
