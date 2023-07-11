@@ -12,24 +12,34 @@ const getPrerequisitesController = async (req: Request, res: Response) => {
     SELECT 
     Course.course_dept, 
     Course.course_number, 
-    GROUP_CONCAT(DISTINCT CONCAT(PrereqCourse.course_dept, ' ', PrereqCourse.course_number)) as prerequisites
-    FROM 
-        DegreeRequirementList
-    JOIN 
-        CourseSet ON DegreeRequirementList.set_id = CourseSet.set_id
-    JOIN 
-        Course ON CourseSet.course_id = Course.course_id
-    LEFT JOIN 
-        Prereq ON Course.course_id = Prereq.course_id
-    LEFT JOIN 
-        CourseSet as PrereqCourseSet ON Prereq.set_id = PrereqCourseSet.set_id
-    LEFT JOIN 
-        Course as PrereqCourse ON PrereqCourseSet.course_id = PrereqCourse.course_id
-    WHERE 
-        DegreeRequirementList.trgt_dept = ? AND DegreeRequirementList.degree = ?
-    GROUP BY 
-        Course.course_id
-    
+    GROUP_CONCAT(DISTINCT PrereqGroup.prerequisites) as prerequisites
+FROM 
+    DegreeRequirementList
+JOIN 
+    CourseSet ON DegreeRequirementList.set_id = CourseSet.set_id
+JOIN 
+    Course ON CourseSet.course_id = Course.course_id
+LEFT JOIN 
+    Prereq ON Course.course_id = Prereq.course_id
+LEFT JOIN 
+    (
+        SELECT 
+            Prereq.set_id, 
+            CONCAT('(', GROUP_CONCAT(DISTINCT CONCAT(PrereqCourse.course_dept, ' ', PrereqCourse.course_number)), ')') as prerequisites
+        FROM 
+            Prereq
+        JOIN 
+            CourseSet as PrereqCourseSet ON Prereq.set_id = PrereqCourseSet.set_id
+        JOIN 
+            Course as PrereqCourse ON PrereqCourseSet.course_id = PrereqCourse.course_id
+        GROUP BY 
+            Prereq.set_id
+    ) as PrereqGroup ON Prereq.set_id = PrereqGroup.set_id
+WHERE 
+    DegreeRequirementList.trgt_dept = ? AND DegreeRequirementList.degree = ?
+GROUP BY 
+    Course.course_id
+
     `;
   
     try {
