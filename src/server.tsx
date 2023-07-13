@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import postDataController from './controllers/postDataController';
 import getDegreeRequirementController from './controllers/getDegreeRequirementController';
 import getPrerequisitesController from './controllers/getPrerequisites';
+import getOffering from './controllers/getOffering';
 const app = express();
 
 app.use((req, res, next) => {
@@ -24,6 +25,10 @@ app.get('/degree-requirement', (req: Request, res: Response) => {
 
 app.get('/preequisites', (req: Request, res: Response) => {
   getPrerequisitesController(req, res);
+});
+
+app.get('/getOffering', (req: Request, res: Response) => {
+  getOffering(req, res);
 });
 
 app.listen(5000, () => {
