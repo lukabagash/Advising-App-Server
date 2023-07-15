@@ -3,6 +3,10 @@ import postDataController from './controllers/postDataController';
 import getDegreeRequirementController from './controllers/getDegreeRequirementController';
 import getPrerequisitesController from './controllers/getPrerequisites';
 import getOffering from './controllers/getOffering';
+import addUser from './controllers/postUsername';
+import getPlanCreationInfo from './controllers/getPlans';
+import addPlanCreationInfo from './controllers/postPanCreation';
+import addCourseToSchedule from './controllers/postAddCourses';
 const app = express();
 
 app.use((req, res, next) => {
@@ -29,6 +33,23 @@ app.get('/preequisites', (req: Request, res: Response) => {
 
 app.get('/getOffering', (req: Request, res: Response) => {
   getOffering(req, res);
+});
+
+app.get('/getPlan/:uuid', (req: Request, res: Response) => {
+  getPlanCreationInfo(req, res);
+});
+
+app.post('/addUser', (req: Request, res: Response) => {
+  addUser(req, res);
+});
+
+app.post('/addPlan', (req: Request, res: Response) => {
+  addPlanCreationInfo(req, res);
+});
+
+app.post('/addCourseToSchedule', (req: Request, res: Response) => {
+  addCourseToSchedule(req, res);
+  console.log("tableData saved")
 });
 
 app.listen(5000, () => {
