@@ -7,6 +7,7 @@ import addUser from './controllers/postUsername';
 import getPlanCreationInfo from './controllers/getPlans';
 import addPlanCreationInfo from './controllers/postPanCreation';
 import addCourseToSchedule from './controllers/postAddCourses';
+import deletePlanController from './controllers/postDeletePlanController'; // Import the controller
 const app = express();
 
 app.use((req, res, next) => {
@@ -19,38 +20,15 @@ app.use((req, res, next) => {
 
 app.use(express.json()); // To handle JSON input
 
-app.post('/data', (req: Request, res: Response) => {
-  postDataController(req, res);
-}); //keep it as post for user info retrieval (but endpoint should be modified)
-
-app.get('/degree-requirement', (req: Request, res: Response) => {
-  getDegreeRequirementController(req, res);
-});
-
-app.get('/preequisites', (req: Request, res: Response) => {
-  getPrerequisitesController(req, res);
-});
-
-app.get('/getOffering', (req: Request, res: Response) => {
-  getOffering(req, res);
-});
-
-app.get('/getPlan/:uuid', (req: Request, res: Response) => {
-  getPlanCreationInfo(req, res);
-});
-
-app.post('/addUser', (req: Request, res: Response) => {
-  addUser(req, res);
-});
-
-app.post('/addPlan', (req: Request, res: Response) => {
-  addPlanCreationInfo(req, res);
-});
-
-app.post('/addCourseToSchedule', (req: Request, res: Response) => {
-  addCourseToSchedule(req, res);
-  console.log("tableData saved")
-});
+app.post('/data', postDataController);
+app.get('/degree-requirement', getDegreeRequirementController);
+app.get('/preequisites', getPrerequisitesController);
+app.get('/getOffering', getOffering);
+app.get('/getPlan/:uuid', getPlanCreationInfo);
+app.post('/addUser', addUser);
+app.post('/addPlan', addPlanCreationInfo);
+app.post('/addCourseToSchedule', addCourseToSchedule);
+app.delete('/deletePlan', deletePlanController);
 
 app.listen(5000, () => {
   console.log('Server is running on port 5000');

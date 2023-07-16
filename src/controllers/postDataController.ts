@@ -9,12 +9,11 @@ const postDataController = async (req: Request, res: Response) => {
   }
 
   const query = `
-    SELECT DISTINCT Offering.year, Offering.semester, Course.course_dept, Course.course_number
-    FROM Offering
-    JOIN Course ON Offering.course_id = Course.course_id
-    JOIN Schedule ON Offering.offering_id = Schedule.offering_id
-    JOIN Plan ON Schedule.student_id = Plan.student_id AND Schedule.plan = Plan.plan
-    WHERE Plan.student_id = ? AND Plan.plan = ?`;
+    SELECT DISTINCT StudentScheduleList.year, StudentScheduleList.semester, StudentScheduleList.course_title
+    FROM StudentScheduleList
+    JOIN User ON StudentScheduleList.user_id = User.user_id
+    JOIN PlanCreationInformation ON User.user_id = PlanCreationInformation.user_id AND StudentScheduleList.plan = PlanCreationInformation.plan
+    WHERE PlanCreationInformation.user_id = ? AND PlanCreationInformation.plan = ?`;
 
   try {
     const results = await executeQuery(query, [student_id, plan]);
